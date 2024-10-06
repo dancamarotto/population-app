@@ -6,11 +6,13 @@ final class NationPopulationViewModelTests: XCTestCase {
     var populationService: PopulationServiceMock!
     
     override func setUp() {
+        super.setUp()
         populationService = PopulationServiceMock()
         sut = NationPopulationViewModel(populationService: populationService)
     }
     
     override func tearDown() {
+        super.tearDown()
         populationService = nil
         sut = nil
     }

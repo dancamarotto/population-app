@@ -6,11 +6,13 @@ final class PopulationServiceTests: XCTestCase {
     var network: NetworkManagerMock!
     
     override func setUp() {
+        super.setUp()
         network = NetworkManagerMock()
         sut = PopulationService(network: network)
     }
     
     override func tearDown() {
+        super.tearDown()
         network = nil
         sut = nil
     }
