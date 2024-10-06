@@ -1,9 +1,9 @@
-struct NationDTO: Decodable {
+struct NationDTO: Decodable, Equatable {
     let data: [Data]
 }
 
 extension NationDTO {
-    struct Data: Decodable {
+    struct Data: Decodable, Equatable {
         let id: String
         let name: String
         let year: String

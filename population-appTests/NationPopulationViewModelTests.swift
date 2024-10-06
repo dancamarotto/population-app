@@ -19,13 +19,14 @@ final class NationPopulationViewModelTests: XCTestCase {
     
     func testFetchNationReturnsValueFromService() async {
         // Given
-        populationService.returnedNationDTO = buildDummyNationDTO()
+        populationService.returnedNationDTO = NationDTO.dummyInstance
         XCTAssertEqual(sut.nations, [])
         
         // When
         await sut.fetchNation()
         
         // Then
+        XCTAssertTrue(populationService.fetchNationCalled)
         XCTAssertEqual(sut.nations.count, 2)
         let actualOne = sut.nations.first { $0.id == "1" }
         XCTAssertEqual(actualOne?.name, "nation-one")
@@ -42,14 +43,7 @@ final class NationPopulationViewModelTests: XCTestCase {
         await sut.fetchNation()
         
         // Then
+        XCTAssertTrue(populationService.fetchNationCalled)
         XCTAssertEqual(sut.nations.count, 0)
-    }
-    
-    // MARK: - Private functions
-    
-    private func buildDummyNationDTO() -> NationDTO {
-        let nationOne = NationDTO.Data(id: "1", name: "nation-one", year: "2001", population: 1000)
-        let nationTwo = NationDTO.Data(id: "2", name: "nation-two", year: "2002", population: 2000)
-        return NationDTO(data: [nationOne, nationTwo])
     }
 }
