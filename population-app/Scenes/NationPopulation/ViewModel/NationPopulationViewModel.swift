@@ -1,11 +1,5 @@
 import Foundation
 
-protocol NationPopulationViewModelProtocol {
-    var nations: [Nation] { get }
-    
-    func fetchNation() async
-}
-
 final class NationPopulationViewModel: ObservableObject {
     private let populationService: PopulationServiceProtocol
     
@@ -15,13 +9,6 @@ final class NationPopulationViewModel: ObservableObject {
         self.populationService = populationService
     }
     
-    @MainActor
-    private func update(nations: [Nation]) {
-        self.nations = nations
-    }
-}
-
-extension NationPopulationViewModel: NationPopulationViewModelProtocol {
     func fetchNation() async {
         do {
             let nationDTO = try await populationService.fetchNation()
@@ -30,5 +17,10 @@ extension NationPopulationViewModel: NationPopulationViewModelProtocol {
         } catch {
             print("Something unexpected happened, please try again later.")
         }
+    }
+    
+    @MainActor
+    private func update(nations: [Nation]) {
+        self.nations = nations
     }
 }
