@@ -6,7 +6,7 @@ protocol NationPopulationViewModelProtocol {
     func fetchNation() async
 }
 
-final class NationPopulationViewModel: ObservableObject, NationPopulationViewModelProtocol {
+final class NationPopulationViewModel: ObservableObject {
     private let populationService: PopulationServiceProtocol
     
     @Published var nations: [Nation] = []
@@ -15,6 +15,13 @@ final class NationPopulationViewModel: ObservableObject, NationPopulationViewMod
         self.populationService = populationService
     }
     
+    @MainActor
+    private func update(nations: [Nation]) {
+        self.nations = nations
+    }
+}
+
+extension NationPopulationViewModel: NationPopulationViewModelProtocol {
     func fetchNation() async {
         do {
             let nationDTO = try await populationService.fetchNation()
@@ -23,10 +30,5 @@ final class NationPopulationViewModel: ObservableObject, NationPopulationViewMod
         } catch {
             print("Something unexpected happened, please try again later.")
         }
-    }
-    
-    @MainActor
-    private func update(nations: [Nation]) {
-        self.nations = nations
     }
 }
